@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>День 2</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+</head>
+
+<body>
+
+    <div class="center" id="app">
+        <input type="radio" name="author" v-model="isAuthor" value="exist">Є автор
+        <input type="radio" name="author" v-model="isAuthor" value="">Немає автора
+        <div class="quote" v-for="qt in filteredQuotes">
+            <h3 v-bind:class="qt.quote.length > 40 ? 'peachpuff' : 'firebrick'" >{{qt.quote}}</h3>
+            <!--v-if="qt.source.length > 0"-->
+            <h5>{{qt.source}}</h5>
+        </div>
+        <button @click="sortBySource()">Сортувати</button>
+        <div class="quote" v-for="qt in sortedQuotes">
+            <h3>{{qt.quote}}</h3>
+            <h5>{{qt.source}}</h5>
+        </div>
+    </div>
+
+    <style>
+        .blue {
+            color:blue;
+        }
+
+        .blue {
+            color:blue ;
+        }
+
+        .quote {
+            color:blue; 
+            font-family: 'Trebuchet MS';
+            font-style: italic;
+            background-color: green;
+            padding:1%; 
+            width: fit-content;
+            border:5px solid white; 
+            border-radius: 30px;
+        }
+    </style>
+    <script>
+
+        var quotesArray = [
+            {
+                "quote": "This is just a Quote1",
+                "source": "Christopher"
+            },
+            {
+                "quote": "This is just a Quote2 ",
+                "source": "Martin"
+            },
+            {
+                "quote": "This is just a Quote3",
+                "source": "Dennis"
+            },
+            {
+                "quote": "This is just a Quote4",
+                "source": ""
+            },
+            {
+                "quote": "This is just a Quote5",
+                "source": ""
+            },
+        ]
+
+        new Vue({
+            el: '#app',
+            data: {
+                quotes: quotesArray, 
+                isAuthor: "",
+                sortedQuotes: [],
+            },
+            computed: {
+                filteredQuotes: function(){
+                    return this.quotes.filter(element => {
+                        return Boolean(this.isAuthor) == Boolean(element.source);
+                    })
+                }
+            },
+            methods:{
+                sortBySource () {
+                    this.sortedQuotes = this.quotes.slice(0).sort((a,b) => (a.source > b.source) ? 1 : -1); 
+                }
+            }
+        })
+
+    </script>
+</body>
+
+</html>
